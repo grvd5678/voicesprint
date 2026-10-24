@@ -16,35 +16,49 @@ const seedData = async () => {
     await User.deleteMany({});
     console.log('[Seed] Cleared existing data...');
 
-    // 1. Seed Team Members
+    // 1. Seed 6 Team Members
     const users = await User.create([
       {
         name: 'Gourav Das',
         email: 'gouravdas350@gmail.com',
-        role: 'Full-Stack / AI Lead',
+        role: 'MLOps Engineer',
         initials: 'GD',
-        aliases: ['gourav', 'das', 'lead', 'me'],
+        aliases: ['gourav', 'das', 'mlops', 'ai', 'lead', 'me'],
       },
       {
         name: 'Alex Chen',
         email: 'alex.chen@voicesprint.dev',
         role: 'Backend Architect',
         initials: 'AC',
-        aliases: ['alex', 'chen'],
+        aliases: ['alex', 'chen', 'backend'],
       },
       {
         name: 'Sarah Jenkins',
         email: 'sarah.j@voicesprint.dev',
         role: 'Frontend & UI Specialist',
         initials: 'SJ',
-        aliases: ['sarah', 'jenkins'],
+        aliases: ['sarah', 'jenkins', 'frontend', 'ui'],
       },
       {
         name: 'Priya Sharma',
         email: 'priya.s@voicesprint.dev',
-        role: 'DevOps / SRE',
+        role: 'SRE',
         initials: 'PS',
-        aliases: ['priya', 'sharma'],
+        aliases: ['priya', 'sharma', 'sre'],
+      },
+      {
+        name: 'Elena Lindqvist',
+        email: 'elena.l@voicesprint.dev',
+        role: 'Senior DevOps',
+        initials: 'EL',
+        aliases: ['elena', 'lindqvist', 'devops'],
+      },
+      {
+        name: 'Rohan Desai',
+        email: 'rohan.d@voicesprint.dev',
+        role: 'QA Engineer & Designer',
+        initials: 'RD',
+        aliases: ['rohan', 'desai', 'qa', 'designer', 'testing'],
       },
     ]);
     console.log(`[Seed] Created ${users.length} team members.`);
@@ -67,7 +81,7 @@ const seedData = async () => {
     });
     console.log(`[Seed] Created 2 sprints (Active: "${activeSprint.name}")`);
 
-    // 3. Seed Starter Tasks
+    // 3. Seed Starter Tasks for Team Members
     const tasks = [
       {
         title: 'Auth Controller: Token refresh race condition on multiple tabs',
@@ -135,6 +149,34 @@ Implement Tailwind CSS styling with smooth drag-and-drop transitions, glassmorph
         order: 0,
         source: 'voice-wispr',
       },
+      {
+        title: 'CI/CD Pipeline: Automated container security scanning with Trivy',
+        description: `### Specification
+Integrate Trivy vulnerability scanner into GitHub Actions workflow to scan Docker image layers before deployment. Alert team if CVE severity is High or Critical.`,
+        rawTranscript: 'DevOps feature for Elena. Setup automated container security scanning in CI/CD pipeline.',
+        type: 'feature',
+        priority: 'P2',
+        status: 'todo',
+        labels: ['devops', 'cicd', 'security'],
+        assignee: users[4]._id, // Elena
+        sprint: activeSprint._id,
+        order: 1,
+        source: 'voice-wispr',
+      },
+      {
+        title: 'Automated Playwright E2E test suite for VoiceModal flow',
+        description: `### Scope
+Write End-to-End tests verifying keyboard shortcuts (Alt+V), voice review card transitions, and drag-and-drop reordering with persistent order assertions.`,
+        rawTranscript: 'QA task for Rohan. Build the Playwright E2E test suite for the voice modal and Kanban board.',
+        type: 'task',
+        priority: 'P2',
+        status: 'in_progress',
+        labels: ['qa', 'testing', 'playwright'],
+        assignee: users[5]._id, // Rohan
+        sprint: activeSprint._id,
+        order: 0,
+        source: 'voice-wispr',
+      },
     ];
 
     await Task.create(tasks);
@@ -149,4 +191,3 @@ Implement Tailwind CSS styling with smooth drag-and-drop transitions, glassmorph
 };
 
 seedData();
-
