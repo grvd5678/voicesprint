@@ -64,6 +64,8 @@ export const VoiceModal = ({ isOpen, onClose, onProcessVoice, onSaveReviewedTask
         console.warn('Speech recognition error:', event.error);
         if (event.error === 'not-allowed') {
           setError('Microphone permission blocked. Please allow mic access in your browser or use Wispr Flow desktop hotkey.');
+        } else if (event.error === 'network' || event.error === 'service-not-allowed') {
+          setError('Browser speech service is blocked by Brave Shields or browser privacy settings. Please hold your Wispr Flow desktop hotkey to dictate directly.');
         }
         setIsListening(false);
       };
@@ -90,18 +92,12 @@ export const VoiceModal = ({ isOpen, onClose, onProcessVoice, onSaveReviewedTask
       setStep('record');
       setTranscript('');
       setError(null);
+      setIsListening(false);
 
-      // Focus textarea
+      // Auto-focus textarea for instant Wispr Flow dictation
       setTimeout(() => {
         if (textareaRef.current) textareaRef.current.focus();
       }, 100);
-
-      // Auto-start browser microphone listener if supported
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.start();
-        } catch {}
-      }
     } else {
       if (recognitionRef.current) {
         try {
@@ -333,39 +329,45 @@ export const VoiceModal = ({ isOpen, onClose, onProcessVoice, onSaveReviewedTask
         {step === 'record' && (
           <div className="space-y-4 relative z-10">
             {/* Live Audio Activity Banner */}
-            <div className={`flex items-center justify-between px-3 py-2 rounded-xl border transition-all ${
+            <div className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl border transition-all ${
               isListening 
                 ? 'bg-rose-950/30 border-rose-500/40 text-rose-300' 
-                : 'bg-slate-950/60 border-slate-800/80 text-slate-400'
+                : 'bg-purple-950/25 border-purple-500/30 text-purple-200'
             }`}>
               <div className="flex items-center gap-2 text-xs">
-                <span className={`w-2.5 h-2.5 rounded-full ${isListening ? 'bg-rose-500 animate-ping' : 'bg-slate-600'}`} />
+                <span className={`w-2.5 h-2.5 rounded-full ${isListening ? 'bg-rose-500 animate-ping' : 'bg-purple-400'}`} />
                 <span className="font-semibold">
-                  {isListening ? 'Live Recording Active — Listening to Voice...' : 'Mic Paused (Ready for Wispr Flow dictation)'}
+                  {isListening 
+                    ? '🔴 Browser Mic Active — Listening to Voice...' 
+                    : micSupported 
+                      ? '🟣 Wispr Flow Ready — Hold your Wispr key & speak!' 
+                      : '🟣 Native Wispr Flow Mode — Hold your Wispr hotkey & speak!'}
                 </span>
               </div>
 
-              <button
-                type="button"
-                onClick={toggleListening}
-                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
-                  isListening 
-                    ? 'bg-rose-600 hover:bg-rose-500 text-white shadow-md shadow-rose-600/30' 
-                    : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30'
-                }`}
-              >
-                {isListening ? (
-                  <>
-                    <MicOff className="w-3.5 h-3.5" />
-                    <span>Pause Mic</span>
-                  </>
-                ) : (
-                  <>
-                    <Mic className="w-3.5 h-3.5" />
-                    <span>Start Mic</span>
-                  </>
-                )}
-              </button>
+              {micSupported && (
+                <button
+                  type="button"
+                  onClick={toggleListening}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    isListening 
+                      ? 'bg-rose-600 hover:bg-rose-500 text-white shadow-md shadow-rose-600/30' 
+                      : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30'
+                  }`}
+                >
+                  {isListening ? (
+                    <>
+                      <MicOff className="w-3.5 h-3.5" />
+                      <span>Pause Mic</span>
+                    </>
+                  ) : (
+                    <>
+                      <Mic className="w-3.5 h-3.5" />
+                      <span>Start Browser Mic</span>
+                    </>
+                  )}
+                </button>
+              )}
             </div>
 
             {/* Text Area */}
