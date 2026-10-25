@@ -37,39 +37,52 @@ Rules:
    - ### Root Cause / Technical Hypothesis
    - ### Recommended Action Items (bulleted checklists)`;
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: `Spoken transcript from Wispr Flow: "${rawTranscript}"`,
-        config: {
-          systemInstruction: systemPrompt,
-          responseMimeType: 'application/json',
-          responseJsonSchema: {
-            type: Type.OBJECT,
-            properties: {
-              title: { type: Type.STRING },
-              type: {
-                type: Type.STRING,
-                enum: ['bug', 'feature', 'refactor', 'task', 'debt'],
+      let response;
+      try {
+        response = await ai.models.generateContent({
+          model: 'gemini-3.5-flash',
+          contents: `Spoken transcript from Wispr Flow: "${rawTranscript}"`,
+          config: {
+            systemInstruction: systemPrompt,
+            responseMimeType: 'application/json',
+            responseJsonSchema: {
+              type: Type.OBJECT,
+              properties: {
+                title: { type: Type.STRING },
+                type: {
+                  type: Type.STRING,
+                  enum: ['bug', 'feature', 'refactor', 'task', 'debt'],
+                },
+                priority: {
+                  type: Type.STRING,
+                  enum: ['P0', 'P1', 'P2', 'P3'],
+                },
+                status: {
+                  type: Type.STRING,
+                  enum: ['backlog', 'todo', 'in_progress', 'in_review', 'done'],
+                },
+                labels: {
+                  type: Type.ARRAY,
+                  items: { type: Type.STRING },
+                },
+                targetAssignee: { type: Type.STRING },
+                markdownDescription: { type: Type.STRING },
               },
-              priority: {
-                type: Type.STRING,
-                enum: ['P0', 'P1', 'P2', 'P3'],
-              },
-              status: {
-                type: Type.STRING,
-                enum: ['backlog', 'todo', 'in_progress', 'in_review', 'done'],
-              },
-              labels: {
-                type: Type.ARRAY,
-                items: { type: Type.STRING },
-              },
-              targetAssignee: { type: Type.STRING },
-              markdownDescription: { type: Type.STRING },
+              required: ['title', 'type', 'priority', 'status', 'labels', 'markdownDescription'],
             },
-            required: ['title', 'type', 'priority', 'status', 'labels', 'markdownDescription'],
           },
-        },
-      });
+        });
+      } catch (err35) {
+        // Fallback to gemini-3.8-flash if temporary load spike
+        response = await ai.models.generateContent({
+          model: 'gemini-3.8-flash',
+          contents: `Spoken transcript from Wispr Flow: "${rawTranscript}"`,
+          config: {
+            systemInstruction: systemPrompt,
+            responseMimeType: 'application/json',
+          },
+        });
+      }
 
       const parsed = JSON.parse(response.text);
       return {
