@@ -64,6 +64,29 @@ Open **`http://localhost:3000`** in your browser!
 ### 3. Using Wispr Flow
 - Open the **VoiceSprint** dashboard at `http://localhost:3000`.
 - Click the purple **"🎙️ Voice Dictate"** button or hit **`Alt+V`**.
-- Hold your **Wispr Flow** hotkey and speak your bug or feature.
-- Hit **`Ctrl+Enter`** or click **Convert Speech to Ticket**!
+- Hold your **Wispr Flow** desktop hotkey and speak your bug or feature.
+- Click **Review AI Extraction** to preview the Gemini 3.5 Flash structured spec, or **Instant Add**!
+
+---
+
+## 👥 Engineering Team Pre-Configured
+
+- **Gourav Das** — MLOps Engineer (GD)
+- **Alex Chen** — Backend Architect (AC)
+- **Sarah Jenkins** — Frontend & UI Specialist (SJ)
+- **Priya Sharma** — Site Reliability Engineer (PS)
+- **Elena Lindqvist** — Senior DevOps (EL)
+- **Rohan Desai** — QA Engineer & Designer (RD)
+
+---
+
+## 🏆 Hackathon Submission Checklist
+
+- [x] Full-Stack MERN Architecture with WebSockets (Express 5 + React 19 + MongoDB)
+- [x] Deep Wispr Flow voice dictation integration
+- [x] Google Gemini 3.5 Flash strict JSON schema entity extraction
+- [x] Human-in-the-Loop interactive AI review modal with confidence tags
+- [x] Real-time bi-directional collaborative Kanban board synchronization
+- [x] GitHub Issue Markdown specification export
+- [x] Wispr Flow usage verification (Flow Pro Desktop Insights)
 
