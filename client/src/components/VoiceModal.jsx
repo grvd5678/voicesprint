@@ -20,6 +20,9 @@ export const VoiceModal = ({ isOpen, onClose, onProcessVoice, onSaveReviewedTask
   const [transcript, setTranscript] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [micSupported, setMicSupported] = useState(
+    typeof window !== 'undefined' && Boolean(window.SpeechRecognition || window.webkitSpeechRecognition)
+  );
   const [error, setError] = useState(null);
 
   // Preview form state
@@ -75,6 +78,8 @@ export const VoiceModal = ({ isOpen, onClose, onProcessVoice, onSaveReviewedTask
       };
 
       recognitionRef.current = recognition;
+    } else {
+      setMicSupported(false);
     }
 
     return () => {
