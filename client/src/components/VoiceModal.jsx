@@ -339,7 +339,7 @@ export const VoiceModal = ({ isOpen, onClose, onProcessVoice, onSaveReviewedTask
                 ? 'bg-rose-950/30 border-rose-500/40 text-rose-300' 
                 : 'bg-purple-950/25 border-purple-500/30 text-purple-200'
             }`}>
-              <div className="flex items-center gap-2 text-xs">
+              <div className="flex items-center gap-2.5 text-xs">
                 <span className={`w-2.5 h-2.5 rounded-full ${isListening ? 'bg-rose-500 animate-ping' : 'bg-purple-400'}`} />
                 <span className="font-semibold">
                   {isListening 
@@ -348,6 +348,18 @@ export const VoiceModal = ({ isOpen, onClose, onProcessVoice, onSaveReviewedTask
                       ? '🟣 Wispr Flow Ready — Hold your Wispr key & speak!' 
                       : '🟣 Native Wispr Flow Mode — Hold your Wispr hotkey & speak!'}
                 </span>
+
+                {/* Animated sound wave visualizer */}
+                <div className="flex items-center gap-0.5 h-4 ml-1 px-1.5 py-0.5 rounded bg-black/40 border border-purple-500/20">
+                  {[1, 2, 3, 4, 5, 6].map((bar) => (
+                    <span
+                      key={bar}
+                      className={`w-0.5 bg-gradient-to-t from-indigo-500 to-purple-400 rounded-full transition-all ${
+                        isListening || transcript ? 'wave-bar' : 'h-1.5 opacity-40'
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
 
               {micSupported && (
@@ -447,6 +459,26 @@ export const VoiceModal = ({ isOpen, onClose, onProcessVoice, onSaveReviewedTask
               </div>
             )}
 
+            {/* Processing / Synthesizing State Overlay */}
+            {isProcessing && (
+              <div className="p-4 rounded-xl bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-slate-900 border border-indigo-500/40 flex items-center gap-3.5 animate-pulse">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-600/30">
+                  <Sparkles className="w-5 h-5 text-white animate-spin" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-xs font-bold text-white">Google Gemini 2.5 Flash Ingesting</span>
+                    <span className="text-[9px] uppercase font-mono px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                      Strict Schema
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-300">
+                    Extracting technical scope, priority level (P0-P3), team assignee, and markdown specs...
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Footer Controls with 2 Options: Review vs Instant Add */}
             <div className="flex items-center justify-between pt-3 border-t border-slate-800">
               <button
@@ -498,6 +530,32 @@ export const VoiceModal = ({ isOpen, onClose, onProcessVoice, onSaveReviewedTask
         {step === 'preview' && (
           <form onSubmit={handleConfirmSave} className="space-y-4 relative z-10 max-h-[70vh] overflow-y-auto pr-1">
             
+            {/* Gemini Extraction Intelligence Ribbon */}
+            <div className="p-3.5 rounded-xl bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-slate-900 border border-indigo-500/30 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-purple-300 shrink-0">
+                  <Sparkles className="w-4 h-4 text-purple-300" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white">Gemini 2.5 Flash Structured Ticket</span>
+                    <span className="text-[9px] uppercase font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      Schema Validated
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-400">
+                    Spoken intent converted to agile spec. Review or edit before saving to sprint.
+                  </p>
+                </div>
+              </div>
+
+              {previewData.assigneeId && (
+                <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-purple-500/20 border border-purple-500/40 text-[10px] font-semibold text-purple-200 shrink-0">
+                  <span>🎯 Assignee Auto-Matched</span>
+                </div>
+              )}
+            </div>
+
             {/* Title */}
             <div>
               <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">

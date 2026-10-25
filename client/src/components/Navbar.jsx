@@ -43,8 +43,11 @@ export const Navbar = ({
               <div className="flex items-center gap-2">
                 <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
                   VoiceSprint
-                  <span className="text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                  <span className="text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
                     Wispr Flow
+                  </span>
+                  <span className="text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    Gemini AI
                   </span>
                 </h1>
               </div>

@@ -4,7 +4,8 @@ import {
   Mic, 
   Copy, 
   Check, 
-  Trash2 
+  Trash2,
+  Sparkles 
 } from 'lucide-react';
 
 export const TaskDrawer = ({ 
@@ -61,6 +62,13 @@ export const TaskDrawer = ({
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-purple-500/20 border border-purple-500/40 text-purple-300">
                   <Mic className="w-3 h-3 text-purple-400" />
                   Wispr Flow
+                </span>
+              )}
+
+              {task.aiPowered && (
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-400/40 text-indigo-300">
+                  <Sparkles className="w-3 h-3 text-purple-300 animate-pulse" />
+                  Gemini 2.5 Flash
                 </span>
               )}
             </div>

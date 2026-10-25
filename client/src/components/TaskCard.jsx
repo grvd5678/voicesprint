@@ -117,6 +117,16 @@ export const TaskCard = ({
             <span>Wispr</span>
           </span>
         )}
+
+        {task.aiPowered && (
+          <span 
+            title="Structured by Google Gemini 2.5 Flash"
+            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-gradient-to-r from-indigo-500/20 to-purple-500/25 border border-indigo-400/40 text-indigo-300 shadow-sm"
+          >
+            <Sparkles className="w-2.5 h-2.5 text-purple-300 animate-pulse" />
+            <span>Gemini AI</span>
+          </span>
+        )}
       </div>
 
       {/* Task Title */}
