@@ -1,0 +1,20 @@
+{
+  "name": "voicesprint-root",
+  "version": "1.0.0",
+  "description": "VoiceSprint — Voice-Driven Agile Sprint & Bug Intake Engine",
+  "scripts": {
+    "build": "npm --prefix client install && npm --prefix client run build && npm --prefix server install",
+    "start": "npm --prefix server start",
+    "seed": "npm --prefix server run seed"
+  },
+  "keywords": [
+    "wispr-flow",
+    "gemini-ai",
+    "kanban",
+    "agile",
+    "mern"
+  ],
+  "author": "Gourav Das",
+  "license": "MIT"
+}
+
