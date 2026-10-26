@@ -272,7 +272,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col antialiased">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col antialiased overflow-x-hidden">
       {/* Top Navbar */}
       <Navbar
         sprint={sprint}

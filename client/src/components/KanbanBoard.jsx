@@ -136,8 +136,8 @@ export const KanbanBoard = ({
   };
 
   return (
-    <div className="flex-1 overflow-x-auto pb-8">
-      <div className="flex gap-4 min-w-[1280px] h-full items-start">
+    <div className="flex-1 overflow-x-auto pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory scroll-smooth">
+      <div className="flex gap-4 min-w-max md:min-w-0 md:w-full h-full items-start">
         {columns.map((col) => {
           const colTasks = tasks
             .filter((t) => t.status === col.id)
@@ -150,7 +150,7 @@ export const KanbanBoard = ({
               onDragOver={(e) => handleDragOverColumn(e, col.id)}
               onDragLeave={(e) => handleDragLeaveColumn(e, col.id)}
               onDrop={(e) => handleDropOnColumn(e, col.id)}
-              className={`flex-1 flex flex-col rounded-2xl glass-panel p-3.5 transition-all duration-200 border ${
+              className={`w-[85vw] sm:w-[320px] md:w-auto md:flex-1 shrink-0 md:shrink snap-center flex flex-col rounded-2xl glass-panel p-3.5 transition-all duration-200 border ${
                 isOver ? 'border-indigo-500 ring-2 ring-indigo-500/30 bg-slate-900/90' : 'border-slate-800/80 bg-slate-950/40'
               }`}
             >
